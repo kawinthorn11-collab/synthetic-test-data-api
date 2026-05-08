@@ -3,6 +3,8 @@
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/index.py" },
     { "source": "/users", "destination": "/api/index.py" },
+    { "source": "/generate/credit_card", "destination": "/api/index.py" },
+    { "source": "/generate/credit-card", "destination": "/api/index.py" },
     { "source": "/credit_cards", "destination": "/api/index.py" }
   ]
 }

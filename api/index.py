@@ -85,21 +85,42 @@ def generate_user(
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+def _generate_credit_card_record():
+    fake = Faker()
+    return {
+        "provider": fake.credit_card_provider(),
+        "number": fake.credit_card_number(),
+        "expire": fake.credit_card_expire(),
+        "security_code": fake.credit_card_security_code()
+    }
+
+@app.get("/generate/credit_card", tags=["Finance"], response_model=CreditCardResponse)
+def generate_credit_card_legacy():
+    """Generate a single realistic mock credit card for existing RapidAPI users."""
+    try:
+        Faker.seed()
+        return CreditCardResponse(**_generate_credit_card_record())
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/generate/credit-card", tags=["Finance"], response_model=CreditCardResponse)
+def generate_credit_card_slug():
+    """Generate a single realistic mock credit card."""
+    try:
+        Faker.seed()
+        return CreditCardResponse(**_generate_credit_card_record())
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.get("/credit_cards", tags=["Finance"])
-def generate_credit_card(count: int = Query(1, ge=1, le=100, description="Number to generate (max 100)")):
+def generate_credit_cards(count: int = Query(1, ge=1, le=100, description="Number to generate (max 100)")):
     """Generate realistic mock credit cards with provider, number, expiry, and CVV."""
     try:
         Faker.seed()
-        fake = Faker()
         results = []
         for _ in range(count):
-            results.append({
-                "provider": fake.credit_card_provider(),
-                "number": fake.credit_card_number(),
-                "expire": fake.credit_card_expire(),
-                "security_code": fake.credit_card_security_code()
-            })
-        return {"count": len(results), "data": results}
+            results.append(_generate_credit_card_record())
+        return {"count": len(results), "credit_cards": results, "data": results}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
