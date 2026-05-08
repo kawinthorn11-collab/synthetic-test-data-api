@@ -2,6 +2,30 @@
 
 A fully functional, zero-cost REST API for generating realistic mock data. Designed to help developers, QA testers, and database administrators instantly populate their apps with safe, non-PII data.
 
+## Live API
+
+This project is available on RapidAPI with a free tier:
+
+[Use the Synthetic Test Data API on RapidAPI](https://rapidapi.com/kawinthorn11collab/api/synthetic-test-data-api)
+
+Live backend:
+
+```text
+https://synthetic-test-data-api.vercel.app
+```
+
+Core endpoints:
+
+```text
+GET /generate/user
+GET /generate/credit_card
+GET /credit_cards?count=10
+GET /generate/company
+GET /generate/ecommerce
+GET /generate/crypto
+GET /generate/uuid
+```
+
 ## Features
 - **Zero Cost**: Built entirely on MIT-licensed open-source libraries (FastAPI, Python Faker).
 - **Interactive Docs**: Auto-generated Swagger UI for easy endpoint testing.
