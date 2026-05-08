@@ -1,18 +1,21 @@
 # Synthetic Test Data API
 
-A fully functional, zero-cost REST API for generating realistic mock data (users, credit cards, etc.) intended for software testing and QA. Built with FastAPI and Python Faker.
+A fully functional, zero-cost REST API for generating realistic mock data. Designed to help developers, QA testers, and database administrators instantly populate their apps with safe, non-PII data.
 
 ## Features
-- **Zero Cost**: Built entirely on MIT-licensed open-source libraries.
-- **Fast**: Built on FastAPI.
-- **Localization**: Supports multiple locales (e.g., `en_US`, `th_TH`, `es_ES`).
-- **Deployable**: Pre-configured for free Vercel serverless deployment.
+- **Zero Cost**: Built entirely on MIT-licensed open-source libraries (FastAPI, Python Faker).
+- **Interactive Docs**: Auto-generated Swagger UI for easy endpoint testing.
+- **Localization**: Supports multiple locales (e.g., `en_US`, `th_TH`, `es_ES`, `ja_JP`) via query parameters.
+- **Production Ready**: Configured for immediate serverless deployment on Vercel.
 
 ## Endpoints
-- `GET /` - API Status
-- `GET /generate/user?locale=en_US` - Generate a synthetic user profile.
-- `GET /generate/credit_card` - Generate synthetic credit card details.
-- `GET /docs` - Interactive Swagger API documentation.
+- `GET /` - API Status & Routes
+- `GET /generate/user?locale=en_US` - User profiles (Name, Email, Job, Address, Phone)
+- `GET /generate/credit_card` - Credit card details (Provider, Number, Expiry, CVV)
+- `GET /generate/company?locale=en_US` - Company details (Name, Catchphrase, Industry)
+- `GET /generate/ecommerce` - Product details (Name, Price, EAN-13 Barcode)
+- `GET /generate/crypto` - Cryptocurrency addresses (BTC/ETH)
+- `GET /generate/uuid` - Standard UUIDv4 identifiers
 
 ## Local Execution Instructions
 
@@ -27,10 +30,7 @@ A fully functional, zero-cost REST API for generating realistic mock data (users
    ```
 
 3. **Test the API:**
-   Open your browser and navigate to `http://127.0.0.1:8000/docs` to see the interactive UI.
+   Navigate to `http://127.0.0.1:8000/docs` in your browser.
 
-## Free Deployment (Vercel)
-This project includes a `vercel.json` file. To deploy for free:
-1. Push this folder to a GitHub repository.
-2. Sign in to Vercel (vercel.com) using your GitHub account.
-3. Import the repository. Vercel will automatically detect the Python configuration and deploy it for free.
+## Deployment
+See the `DEPLOYMENT_GUIDE.md` file for step-by-step instructions on deploying this to Vercel for free and monetizing it on RapidAPI.
