@@ -60,37 +60,46 @@ def read_root():
         ]
     }
 
-@app.get("/generate/user", tags=["Identity"], response_model=UserResponse)
-def generate_user(locale: str = Query("en_US", description="Locale code (e.g., en_US, fr_FR, th_TH)")):
-    """Generate a random synthetic user profile. Supports localization."""
+@app.get("/users", tags=["Identity"])
+def generate_user(
+    locale: str = Query("en_US", description="Locale code (e.g., en_US, fr_FR, th_TH)"),
+    count: int = Query(1, ge=1, le=100, description="Number of users to generate (max 100)")
+):
+    """Generate random synthetic user profiles. Supports localization."""
     try:
         Faker.seed() 
         local_fake = Faker(locale)
-        return UserResponse(
-            name=local_fake.name(),
-            email=local_fake.email(),
-            address=local_fake.address(),
-            job=local_fake.job(),
-            company=local_fake.company(),
-            phone_number=local_fake.phone_number()
-        )
+        results = []
+        for _ in range(count):
+            results.append({
+                "name": local_fake.name(),
+                "email": local_fake.email(),
+                "address": local_fake.address(),
+                "job": local_fake.job(),
+                "company": local_fake.company(),
+                "phone_number": local_fake.phone_number()
+            })
+        return {"count": len(results), "data": results}
     except AttributeError:
         raise HTTPException(status_code=400, detail=f"Unsupported locale: {locale}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.get("/generate/credit_card", tags=["Finance"], response_model=CreditCardResponse)
-def generate_credit_card():
-    """Generate a realistic mock credit card with provider, number, expiry, and CVV."""
+@app.get("/credit_cards", tags=["Finance"])
+def generate_credit_card(count: int = Query(1, ge=1, le=100, description="Number to generate (max 100)")):
+    """Generate realistic mock credit cards with provider, number, expiry, and CVV."""
     try:
         Faker.seed()
         fake = Faker()
-        return CreditCardResponse(
-            provider=fake.credit_card_provider(),
-            number=fake.credit_card_number(),
-            expire=fake.credit_card_expire(),
-            security_code=fake.credit_card_security_code()
-        )
+        results = []
+        for _ in range(count):
+            results.append({
+                "provider": fake.credit_card_provider(),
+                "number": fake.credit_card_number(),
+                "expire": fake.credit_card_expire(),
+                "security_code": fake.credit_card_security_code()
+            })
+        return {"count": len(results), "data": results}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
